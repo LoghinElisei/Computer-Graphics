@@ -26,6 +26,15 @@ public:
 	void init_obiect(int raza, int latura)
 	{
 		// functie ce calculeaza coordonatele varfurilor in pozitia initiala
+		float half = latura / 2.0;
+		x[0] = xc + raza - half;
+		y[0] = yc - half;
+		x[1] = xc + raza + half;
+		y[1] = yc - half;
+		x[2] = xc + raza + half;
+		y[2] = yc + half;
+		x[3] = xc + raza - half;
+		y[3] = yc + half;
 	}
 
 	void desen()
@@ -51,6 +60,19 @@ public:
 			- se calculeaza noi valori pentru x[], y[]
 			prin aplicarea unor transformari de translatie / rotatie, dupa caz
 			*/
+
+			desen();
+			for (int j = 0; j < 4; j++)
+			{
+				int x_old = x[j] - xc;
+				int y_old = y[j] - yc;
+				float x_rot = x_old * c - y_old * s;
+				float y_rot = x_old * s + y_old * c;
+				x[j] = x_rot + xc;
+				y[j] = y_rot + yc;
+			}
+
+
 		}
 	}
 };

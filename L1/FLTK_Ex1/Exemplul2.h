@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #define WIN32
 #include <iostream>
@@ -16,7 +16,7 @@ class Exemplul2 : public Fl_Window
 	int N; // nr de patrate
 
 public:
-	Exemplul2(int w = 512, int h = 512, int x = 200, int y = 200, const char* title = "SPG")
+	Exemplul2(int w = 512, int h = 512, int x = 300, int y = 200, const char* title = "SPG")
 		: Fl_Window(x, y, w, h, title)
 	{
 		xc = this->w() / 2;
@@ -28,6 +28,20 @@ public:
 	void init_obiect(int _raza, int _latura)
 	{
 		// functie ce calculeaza coordonatele varfurilor in pozitia initiala
+		raza = _raza;
+		latura = _latura;
+		float half = latura / 2.0;
+		xcp = xc + raza;
+		ycp = yc;
+
+		x[0] = xc - half;
+		y[0] = yc - half;
+		x[1] = xc  + half;
+		y[1] = yc - half;
+		x[2] = xc  + half;
+		y[2] = yc + half;
+		x[3] = xc - half;
+		y[3] = yc + half;
 	}
 
 	void desen()
@@ -49,10 +63,26 @@ public:
 		for (int i = 0; i < N; i++)
 		{
 			// se deseneaza patratul curent
+			desen();
 
-			// se calculeaza noua pozitie a centrului patratului
-
+			// Calculăm următoarea poziție prin rotirea vârfurilor 
+			// în jurul centrului ferestrei (xc, yc)
 			// se determina coordonatele varfurilor noului patrat functie de pozitia noului centru
+			float u = (i + 1) * du;
+			float next_xcp = xc + raza * cos(u);
+			float next_ycp = yc + raza * sin(u);
+
+			float dx = next_xcp - xcp;
+			float dy = next_ycp - ycp;
+
+			for (int j = 0; j < 4; j++)
+			{
+				x[j] += dx;
+				y[j] += dy;
+			}
+
+			xcp = next_xcp;
+			ycp = next_ycp;
 		}
 	}
 };

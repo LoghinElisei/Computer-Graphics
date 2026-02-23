@@ -1,8 +1,8 @@
-#include "Exemplul1.h"
+#include "Exemplul2.h"
 
 int main(int argc, char** argv)
 {
-	Exemplul1 myWin;
+	Exemplul2 myWin;
 
 	myWin.show(argc, argv);
 
