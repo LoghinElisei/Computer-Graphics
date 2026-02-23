@@ -46,6 +46,11 @@ public:
 	void afisare(const Coord2D avion[])
 	{
 		// deseneaza avionul primit ca parametru.
+		fl_begin_loop();
+		for (int i = 0; i < np; i++) {
+			fl_vertex(avion[i].x, avion[i].y);
+		}
+		fl_end_loop();
 	}
 
 	// determina laturile dreptunghiului de incadrare a obiectului
@@ -71,6 +76,18 @@ public:
 		// u - unghiul de rotatie
 		// scal - factorul de scalare
 		// tx, ty - componentele vectorului de translatie
+		float c = cos(u);
+		float s = sin(u);
+
+		for (int i = 0; i < np; i++) {
+			float px = avionPrototip[i].x * scal;
+			float py = avionPrototip[i].y * scal;
+
+			//Rotire si scalare. 
+			avion[i].x = tx + (px * c - py * s);
+			avion[i].y = ty - (px * s + py * c);
+		}
+
 	}
 
 	void draw() override
@@ -90,15 +107,17 @@ public:
 		instantiere(avion, -PI / 2, scal, xc + 50, yc);
 		afisare(avion);
 
-		//avion orientat sus
-		//instantiere(avion, ...);
-		//afisare(avion);
+		//avion orientat sus 0 grade
+		instantiere(avion,0,scal,xc,yc-50);
+		afisare(avion);
 		
-		//avion orientat stanga
-		
+		//avion orientat stanga 90 grade
+		instantiere(avion, PI / 2, scal, xc - 50, yc);
+		afisare(avion);
 
-		//avion orientat jos
-		
+		//avion orientat jos 180 grade
+		instantiere(avion, PI, scal, xc, yc + 50);
+		afisare(avion);
 
 		if (firstTime)
 		{
