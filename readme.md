@@ -23,7 +23,7 @@ In this lab:
 
 ### 📖 Description
 
-1. Plotting of four mathematical functions—$\tan(x)$, $\sin(10x)$, $x\sin(10x)$, and $(x^2 - 2)(x + 3)$—using polyline approximation to render smooth curves. 
+1. Plotting of four mathematical functions— $\tan(x)$, $\sin(10x)$, $x\sin(10x)$, and $(x^2 - 2)(x + 3)$—using polyline approximation to render smooth curves. 
 
 ### 🖼️ Screenshot
 <div >
