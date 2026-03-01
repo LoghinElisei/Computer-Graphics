@@ -19,4 +19,17 @@ In this lab:
 </div>
 ---
 
+## 📂 Lab 2
+
+### 📖 Description
+
+
+
+### 🖼️ Screenshot
+<div >
+  <img src="images/lab2_1.png" alt="Lab 1" width="400">
+
+</div>
+
+
 
