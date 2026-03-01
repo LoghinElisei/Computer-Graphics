@@ -12,7 +12,7 @@ In this lab:
 
 
 ### 🖼️ Screenshot
-<img src = "images/lab1_1.png" alt = "Lab 1" width = "300"> 
+<img src = "images/Lab1_1.png" alt = "Lab 1" width = "300"> 
 <img src = "images/lab1_2.png" alt = "Lab 1" width = "300" height = "400"> 
 <img src = "images/lab1_3.png" alt = "Lab 1" width = "300"> 
 ---
