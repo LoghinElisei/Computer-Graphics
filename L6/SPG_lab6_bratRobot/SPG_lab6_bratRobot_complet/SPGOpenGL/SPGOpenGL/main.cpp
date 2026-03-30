@@ -25,6 +25,8 @@ float segment1Angle = PI / 12; //unghiul de rotatie al bratului
 float segment2 = 3; //lungimea antebratului
 float segment2Angle = PI / 8; //unghiul de rotatie al antebratului
 
+float segment3 = 1.0f;         // Lungimea degetului
+float segment3Angle = PI / 6;  // Unghiul de rotație al degetului	
 
 
 float points[] = {
@@ -96,10 +98,10 @@ void display()
 	modelMatrix *= glm::translate(glm::vec3(segment1 / 2.0f, 0, 0));
 	
 	modelStack.push(modelMatrix);
-		modelMatrix *= glm::scale(glm::vec3(segment1, 0.5, 0.5));
+	modelMatrix *= glm::scale(glm::vec3(segment1, 0.5, 0.5));
 
-		glUniformMatrix4fv(matrixID, 1, GL_FALSE, glm::value_ptr(projectionMatrix * viewMatrix * modelMatrix));
-		glDrawArrays(GL_LINES, 0, 24);
+	glUniformMatrix4fv(matrixID, 1, GL_FALSE, glm::value_ptr(projectionMatrix * viewMatrix * modelMatrix));
+	glDrawArrays(GL_LINES, 0, 24);
 	modelMatrix = modelStack.top();
 	modelStack.pop();
 
@@ -109,13 +111,35 @@ void display()
 	modelMatrix *= glm::translate(glm::vec3(segment2 / 2.0f, 0, 0));
 
 	modelStack.push(modelMatrix);
-		modelMatrix *= glm::scale(glm::vec3(segment2, 0.5, 0.5));
+	modelMatrix *= glm::scale(glm::vec3(segment2, 0.5, 0.5));
+	glUniformMatrix4fv(matrixID, 1, GL_FALSE, glm::value_ptr(projectionMatrix * viewMatrix * modelMatrix));
+	glDrawArrays(GL_LINES, 0, 24);
+	modelMatrix = modelStack.top();
+	//modelStack.pop();
 
-		glUniformMatrix4fv(matrixID, 1, GL_FALSE, glm::value_ptr(projectionMatrix * viewMatrix * modelMatrix));
-		glDrawArrays(GL_LINES, 0, 24);
+	// deget 1
+	modelMatrix *= glm::translate(glm::vec3(segment2 / 2.0f, 0, 0)); // antebraț
+	modelMatrix *= glm::rotate(segment3Angle, glm::vec3(0, 0, 1));
+	modelMatrix *= glm::translate(glm::vec3(segment3 / 2.0f, 0, 0));
+
+	//modelStack.push(modelMatrix);
+	modelMatrix *= glm::scale(glm::vec3(segment3, 0.2, 0.2));
+	glUniformMatrix4fv(matrixID, 1, GL_FALSE, glm::value_ptr(projectionMatrix * viewMatrix * modelMatrix));
+	glDrawArrays(GL_LINES, 0, 24);
 	modelMatrix = modelStack.top();
 	modelStack.pop();
 
+	 // deget 2
+	modelMatrix *= glm::translate(glm::vec3(segment2/2.0f, 0, 0)); // antebrat
+	modelMatrix *= glm::rotate(-segment3Angle, glm::vec3(0, 0, 1));
+	modelMatrix *= glm::translate(glm::vec3(segment3 / 2.0f, 0, 0));
+
+	modelStack.push(modelMatrix);
+	modelMatrix *= glm::scale(glm::vec3(segment3, 0.2, 0.2)); 
+	glUniformMatrix4fv(matrixID, 1, GL_FALSE, glm::value_ptr(projectionMatrix * viewMatrix * modelMatrix));
+	glDrawArrays(GL_LINES, 0, 24);
+	modelMatrix = modelStack.top();
+	modelStack.pop();
 
 	glFlush();
 }
@@ -168,16 +192,27 @@ void keyboard(unsigned char key, int x, int y)
 	{
 	case 's':
 		segment1Angle += 0.1;
-			break;
+		break;
 	case 'd':
 		segment1Angle -= 0.1;
-			break;
+		break;
 	case 'x':
 		segment2Angle += 0.1;
 		break;
 	case 'c':
 		segment2Angle -= 0.1;
 		break;
+	case '1':
+		segment3Angle += 0.1;
+		if (segment3Angle > PI / 3)
+			segment3Angle = PI / 3;
+		break;
+	case '2':
+		segment3Angle -= 0.1;
+		if (segment3Angle < 0)
+			segment3Angle = 0;
+		break;
+
 	}
 	glutPostRedisplay();
 }

@@ -14,7 +14,7 @@
 #define PI glm::pi<float>()
 
 GLuint shader_programme;
-glm::mat4 projectionMatrix, viewMatrix, modelMatrix;
+glm::mat4 projectionMatrix, viewMatrix, modelMatrix, modelMatrixSecond;
 std::stack<glm::mat4> modelStack;
 
 GLuint vboAxes, vaoAxes;
@@ -123,6 +123,9 @@ struct Planet
 Planet sun(2.0f, 0, PI / 128, 0, 0, 0);
 Planet p1(0.7f, 0, PI / 16, 8.0, PI / 8, PI / 32);
 Planet p1s1(0.3f, 0, PI / 32, 3.0, PI / 16, PI / 16);
+Planet s1s1(0.2f, 0, PI / 16, 2, PI / 8, PI / 16);
+Planet p2(0.9f, 0, PI / 16, 6.0, (PI / 8.0f) + PI, PI / 32);
+Planet p2s1(0.3f, 0, PI / 32, 3.0, PI / 16, PI / 16);
 
 void display()
 {
@@ -150,13 +153,14 @@ void display()
 		glUniform3fv(colorID, 1, glm::value_ptr(glm::vec3(1, 0, 0)));
 		glDrawElements(GL_TRIANGLES, sphereElementCount, GL_UNSIGNED_INT, NULL);
 	modelMatrix = modelStack.top(); // se readuce modelMatrix la valoarea din momentul in care s-a facut push()
-	modelStack.pop(); // se elimina din stiva valoarea curenta a modelMatrix
+	//modelStack.pop(); // se elimina din stiva valoarea curenta a modelMatrix
 
 					  // urmatoarele doua transformari definesc rotatia pe orbita a primei planete
 					  //	transformarile se aplica atat planetei, cat si satelitului sau
-
+	modelStack.push(modelMatrix);
 	modelMatrix *= glm::rotate(p1.orbitAngle, glm::vec3(0, 1, 0));
 	modelMatrix *= glm::translate(glm::vec3(p1.orbitDist, 0, 0));
+
 
 	modelStack.push(modelMatrix); //se salveaza pe stiva modelMatrix, deoarece urmatoarele doua transformari se aplica doar planetei, nu si satelitului sau
 		modelMatrix *= glm::rotate(p1.axisRotAngle, glm::vec3(0, 1, 0)); // rotatia planetei in jurul propriei axe
@@ -165,7 +169,7 @@ void display()
 		glUniform3fv(colorID, 1, glm::value_ptr(glm::vec3(0, 0, 1)));
 		glDrawElements(GL_TRIANGLES, sphereElementCount, GL_UNSIGNED_INT, NULL);
 	modelMatrix = modelStack.top(); // se readuce modelMatrix la valoarea din momentul in care s-a facut push()
-	modelStack.pop(); // se elimina din stiva valoarea curenta a modelMatrix
+	//modelStack.pop(); // se elimina din stiva valoarea curenta a modelMatrix
 
 					  // urmatoarele doua transformari definesc rotatia pe orbita a satelitului primei planete
 
@@ -173,18 +177,56 @@ void display()
 	modelMatrix *= glm::translate(glm::vec3(p1s1.orbitDist, 0, 0));
 
 	//urmeaza doua transformari care se aplica exclusiv satelitului
-	modelStack.push(modelMatrix);
+	//modelStack.push(modelMatrix);
 		modelMatrix *= glm::rotate(p1s1.axisRotAngle, glm::vec3(0, 1, 0)); // rotatia satelutului in jurul propriei axe
 		modelMatrix *= glm::scale(glm::vec3(2 * p1s1.radius)); // scalarea care defineste dimensiunea satelitului
 		glUniformMatrix4fv(matrixID, 1, GL_FALSE, glm::value_ptr(projectionMatrix * viewMatrix * modelMatrix));
 		glUniform3fv(colorID, 1, glm::value_ptr(glm::vec3(1, 0, 1)));
 		glDrawElements(GL_TRIANGLES, sphereElementCount, GL_UNSIGNED_INT, NULL);
-	modelMatrix = modelStack.top();
-	modelStack.pop();
+	//modelMatrix = modelStack.top();
+	//modelStack.pop();
 
 	// se vor adauga alte planete si/sau sateliti
+	modelMatrix *= glm::rotate(s1s1.orbitAngle, glm::vec3(0, 1, 0));
+	modelMatrix *= glm::translate(glm::vec3(s1s1.orbitDist, 0, 0));
+		modelMatrix *= glm::rotate(s1s1.axisRotAngle, glm::vec3(0, 1, 0)); // rotatia satelutului in jurul propriei axe
+		modelMatrix *= glm::scale(glm::vec3(2 * s1s1.radius)); // scalarea care defineste dimensiunea satelitului
+		glUniformMatrix4fv(matrixID, 1, GL_FALSE, glm::value_ptr(projectionMatrix * viewMatrix * modelMatrix));
+		glUniform3fv(colorID, 1, glm::value_ptr(glm::vec3(1, 0, 0)));
+		glDrawElements(GL_TRIANGLES, sphereElementCount, GL_UNSIGNED_INT, NULL);
 
-	// ...
+		modelStack.pop();
+		modelMatrix = modelStack.top();
+		modelStack.pop();
+
+
+		// --- PLANETA 2 
+		modelStack.push(modelMatrix);
+		// Orbita P2
+		modelMatrix *= glm::rotate(p2.orbitAngle, glm::vec3(0, 1, 0));
+		modelMatrix *= glm::translate(glm::vec3(p2.orbitDist, 0, 0));
+
+		modelStack.push(modelMatrix); // Salvăm centrul P2 pentru sateliții săi
+		// Desenăm Planeta 2
+		modelMatrix *= glm::rotate(p2.axisRotAngle, glm::vec3(0, 1, 0));
+		modelMatrix *= glm::scale(glm::vec3(2 * p2.radius));
+		glUniformMatrix4fv(matrixID, 1, GL_FALSE, glm::value_ptr(projectionMatrix * viewMatrix * modelMatrix));
+		glUniform3fv(colorID, 1, glm::value_ptr(glm::vec3(0, 1, 0))); 
+		glDrawElements(GL_TRIANGLES, sphereElementCount, GL_UNSIGNED_INT, NULL);
+		modelMatrix = modelStack.top();
+
+		// Desenăm Satelitul 1 al Planetei 2 (p2s1)
+		modelMatrix *= glm::rotate(p2s1.orbitAngle, glm::vec3(0, 1, 0));
+		modelMatrix *= glm::translate(glm::vec3(p2s1.orbitDist, 0, 0));
+		modelMatrix *= glm::rotate(p2s1.axisRotAngle, glm::vec3(0, 1, 0));
+		modelMatrix *= glm::scale(glm::vec3(2 * p2s1.radius));
+		glUniformMatrix4fv(matrixID, 1, GL_FALSE, glm::value_ptr(projectionMatrix * viewMatrix * modelMatrix));
+		glUniform3fv(colorID, 1, glm::value_ptr(glm::vec3(0.5f, 0.5f, 0.5f))); 
+		glDrawElements(GL_TRIANGLES, sphereElementCount, GL_UNSIGNED_INT, NULL);
+
+		modelStack.pop();
+		modelMatrix = modelStack.top();
+		modelStack.pop(); // Golic stiva complet
 
 	glutSwapBuffers();
 }
@@ -225,11 +267,43 @@ void keyboard(unsigned char key, int x, int y)
 		p1s1.orbitAngle += p1s1.orbitAngleInc;
 		if (p1s1.orbitAngle > 2 * PI) p1s1.orbitAngle = 0;
 
+		p2.axisRotAngle += p2.axisRotAngleInc;
+		if (p2.axisRotAngle > 2 * PI) p2.axisRotAngle = 0;
+
+		p2.orbitAngle += p2.orbitAngleInc;
+		if (p2.orbitAngle > 2 * PI) p2.orbitAngle = 0;
+
+		p2s1.axisRotAngle += p2s1.axisRotAngleInc;
+		if (p2s1.axisRotAngle > 2 * PI) p2s1.axisRotAngle = 0;
+		p2s1.orbitAngle += p2s1.orbitAngleInc;
+		if (p2s1.orbitAngle > 2 * PI) p2s1.orbitAngle = 0;
+
 		break;
 	case 's':
 
-		// se va implementa rotatia in sens invers
-		// ...
+		sun.axisRotAngle -= sun.axisRotAngleInc;
+		if (sun.axisRotAngle > 2 * PI) sun.axisRotAngle = 0;
+
+		p1.axisRotAngle -= p1.axisRotAngleInc;
+		if (p1.axisRotAngle > 2 * PI) p1.axisRotAngle = 0;
+
+		p1.orbitAngle -= p1.orbitAngleInc;
+		if (p1.orbitAngle > 2 * PI) p1.orbitAngle = 0;
+
+		p1s1.axisRotAngle -= p1s1.axisRotAngleInc;
+		if (p1s1.axisRotAngle > 2 * PI) p1s1.axisRotAngle = 0;
+
+		p1s1.orbitAngle -= p1s1.orbitAngleInc;
+		if (p1s1.orbitAngle > 2 * PI) p1s1.orbitAngle = 0;
+
+		p2.axisRotAngle -= p2.axisRotAngleInc;
+		if (p2.axisRotAngle > 2 * PI) p2.axisRotAngle = 0;
+
+		p2.orbitAngle -= p2.orbitAngleInc;
+		if (p2.orbitAngle > 2 * PI) p2.orbitAngle = 0;
+
+		p2s1.axisRotAngle -= p2s1.axisRotAngleInc;
+		p2s1.orbitAngle -= p2s1.orbitAngleInc;
 
 		break;
 	};
