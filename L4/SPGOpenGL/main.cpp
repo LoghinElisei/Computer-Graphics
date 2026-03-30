@@ -97,6 +97,100 @@ void init()
 	glLinkProgram(shader_programme);
 }
 
+float tx= -0.5f;
+float ty= 0;
+float tz = 0;
+float T[] = { 1,0,0,0,
+		0,1,0,0,
+		0,0,0,1,
+		tx,ty,tz,1 };
+
+void display_p2()
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+	glUseProgram(shader_programme);
+
+
+	GLuint matrixID = glGetUniformLocation(shader_programme, "modelMatrix");
+	glm::mat4 transl = glm::translate(glm::vec3(-0.5f,0,0));
+	glUniformMatrix4fv(matrixID,1, GL_FALSE, glm::value_ptr(transl));
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glBindVertexArray(vao);
+	
+	float rotationAngle = glm::pi<float>() / 2;
+	glm::mat4 rotationMatrix{ glm::cos(rotationAngle), glm::sin(rotationAngle), 0, 0,
+							  -glm::sin(rotationAngle), glm::cos(rotationAngle), 0, 0,
+								0,0,1,0,
+								0,0,0,1
+	};
+
+	GLuint matrixID2 = glGetUniformLocation(shader_programme, "modelMatrix");
+	glUniformMatrix4fv(matrixID2, 1, GL_FALSE, glm::value_ptr(rotationMatrix));
+	glm::mat4 transl2 = glm::translate(glm::vec3(0.5f,0,0));
+	glm::mat4 move = rotationMatrix * transl2;
+	glUniformMatrix4fv(matrixID2, 1, GL_FALSE, glm::value_ptr(move));
+	
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+
+	glFlush();
+}
+
+void display_p3()
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+	glUseProgram(shader_programme);
+
+	
+
+	GLuint matrixID = glGetUniformLocation(shader_programme, "modelMatrix");
+	glm::mat4 transl = glm::translate(glm::vec3(-0.5f, 0, 0));
+	float rotationAngle = glm::pi<float>() / 2;
+	glm::mat4 rotationMatrix{ glm::cos(rotationAngle), glm::sin(rotationAngle), 0, 0,
+							  -glm::sin(rotationAngle), glm::cos(rotationAngle), 0, 0,
+								0,0,1,0,
+								0,0,0,1
+	};
+	glm::mat4 scale = glm::scale(glm::vec3(-0.5f, -0.5f, 0));
+
+	glm::mat4 move = rotationMatrix *  transl *  scale;
+
+	glUniformMatrix4fv(matrixID, 1, GL_FALSE, glm::value_ptr(move));
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glBindVertexArray(vao);
+
+	glFlush();
+}
+
+void display_p4()
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+	glUseProgram(shader_programme);
+
+	float rotationAngle = glm::pi<float>() / 2;
+
+	glm::mat4 rotationMatrix{ glm::cos(rotationAngle), glm::sin(rotationAngle), 0, 0,
+							  -glm::sin(rotationAngle), glm::cos(rotationAngle), 0, 0,
+								0,0,1,0,
+								0,0,0,1
+	};
+
+	GLuint matrixID = glGetUniformLocation(shader_programme, "modelMatrix");
+	glUniformMatrix4fv(matrixID, 1, GL_FALSE, glm::value_ptr(rotationMatrix));
+
+	glBindVertexArray(vao);
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+
+	glFlush();
+
+	//vec3 newPosition = vec3(vp.x * 0.5f, vp.y * 0.5f - 0.5f, vp.z);
+	//gl_Position = modelMatrix * vec4(newPosition, 1.0);
+}
+
+void display_p5()
+{
+
+}
+
 int main(int argc, char** argv)
 {
 
@@ -108,7 +202,7 @@ int main(int argc, char** argv)
 
 	init();
 
-	glutDisplayFunc(display);
+	glutDisplayFunc(display_p3);
 	glutMainLoop();
 
 	return 0;

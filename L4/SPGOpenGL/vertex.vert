@@ -3,5 +3,6 @@ in vec3 vp;
 uniform mat4 modelMatrix;
 out vec3 position;
 void main() {
-	gl_Position = modelMatrix * vec4(vp, 1.0);
+	vec3 newPosition = vec3(vp.x * 0.5f , vp.y * 0.5f - 0.5f, vp.z);
+	gl_Position = modelMatrix * vec4(newPosition, 1.0);
 }

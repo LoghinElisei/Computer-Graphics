@@ -51,6 +51,26 @@ In this lab:
 </div>
 
 
+
+
+## 📂 Lab 4
+
+### 📖 Description
+
+This lab focuses on the Programmable OpenGL Pipeline, specifically the implementation of Vertex Shaders and the communication between the CPU (C++) and GPU using GLSL. Key topics include:
+1. GLSL (OpenGL Shading Language): Understanding the high-level, C-like language used to control the rendering pipeline, including its built-in variables like gl_Position.
+2. Vertex Shaders: Programming the first stage of the pipeline to determine vertex positions in the World Coordinate System (WCS).
+3. Uniform Variables: Using uniform qualifiers to pass global data—such as transformation matrices or translation vectors—from the C++ application to shaders via glUniform.
+4. Modeling Transformations: Applying basic geometric operations (Translation, Rotation, Scaling) using the GLM library and understanding the impact of matrix multiplication order.
+5. Dynamic Animation: Implementing a "Bouncing Sphere" effect by varying translation parameters over time using trigonometric functions ($y = radius + |3 \cdot \sin(time)|$).
+6. Complex Mesh Loading: Initializing and rendering more complex geometries like spheres using Vertex Buffer Objects (VBO), Vertex Array Objects (VAO), and Element Buffer Objects (EBO).
+### 🖼️ Screenshot
+<div >
+  <img src="images/lab4_1.png" alt="Lab 4" width="200">
+
+</div>
+
+
 ## 📂 Lab 6
 
 ### 📖 Description
