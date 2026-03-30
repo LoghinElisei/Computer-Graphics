@@ -70,6 +70,32 @@ This lab focuses on the Programmable OpenGL Pipeline, specifically the implement
 
 </div>
 
+## 📂 Lab 5
+
+### 📖 Description
+
+This lab focuses on the **3D Viewing Pipeline**, transitioning objects from local 3D space to 2D screen pixels. The emphasis is on understanding coordinate systems and the mathematical transformations required to build a 3D scene.
+
+Key concepts covered:
+1. **Visualization Sequence**: Mapping points through various reference systems: Modeling Coordinate System (MCS) → World Coordinate System (WCS) → Viewer Coordinate System (VCS) → Normalized Coordinate System (NCS) → Screen Coordinate System (SCS).
+2. **Modeling Transformation ($M_i$)**: Instantiating objects into the scene by combining Scaling ($S$), Rotation ($R$), and Translation ($T$) matrices. The standard applied order is $M_i = T \cdot R \cdot S$.
+3. **Viewing Transformation (View Matrix)**: Positioning the "camera" in the virtual world using the `glm::lookAt` function, which defines the eye position, the target, and the Up vector.
+4. **Projection Transformation**:
+   - **Perspective**: Using `glm::perspective` to simulate depth (distant objects appear smaller).
+   - **Orthographic**: Using `glm::ortho` for technical representations where dimensions remain constant regardless of distance.
+5. **Shader Communication**: Passing the combined **MVP** (Model-View-Projection) matrix to the Vertex Shader and custom colors to the Fragment Shader via `uniform` variables.
+6. **Interaction & Animation**: Implementing the rotation of a cube around an arbitrary axis (the main diagonal) and handling keyboard inputs (`s`, `d`) via callback functions.
+
+### 🛠️ Implemented Requirements
+- Generated a scene with 4 cube instances, each with unique dimensions, rotations, and positions.
+- Individual object coloring using a single shader program and dynamic `uniform` variables.
+- Rendering of the World Coordinate System (WCS) axes.
+### 🖼️ Screenshot
+<div >
+  <img src="images/lab5_1.png" alt="Lab 5" width="300">
+
+</div>
+
 
 ## 📂 Lab 6
 
