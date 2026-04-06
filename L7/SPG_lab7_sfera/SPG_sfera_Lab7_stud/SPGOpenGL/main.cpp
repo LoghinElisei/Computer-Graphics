@@ -48,6 +48,9 @@ std::string textFileRead(char *fn)
 	return filetext;
 }
 
+
+//
+//
 void init()
 {
 	// get version info
@@ -158,8 +161,9 @@ void keyboard(unsigned char key, int x, int y)
 		break;
 	case 's':
 
-		// se va implementa rotatia in sens invers
-		// ...
+		axisRotAngle -= 0.1;
+		if (axisRotAngle < 0) 
+			axisRotAngle = 2 * PI;
 
 		break;
 	};

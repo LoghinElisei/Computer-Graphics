@@ -12,10 +12,19 @@
 #include <glm/gtc/type_ptr.hpp>
 
 //varfurile triunghiului
+//float points[] = {
+//	0.0f,  0.5f,  0.0f,
+//	0.5f, -0.5f,  0.0f,
+//	-0.5f, -0.5f,  0.0f
+//};
 float points[] = {
-	0.0f,  0.5f,  0.0f,
-	0.5f, -0.5f,  0.0f,
-	-0.5f, -0.5f,  0.0f
+	-0.5f,  0.5f,  0.0f,   1.0f, 0.0f, 0.0f, 1.0f,  //r
+	-0.5f, -0.5f,  0.0f,   0.0f, 1.0f, 0.0f, 1.0f,  //g
+	 0.5f, -0.5f,  0.0f,   0.0f, 0.0f, 1.0f, 1.0f,  //b
+
+	 -0.5f,  0.5f,  0.0f,   1.0f, 0.0f, 0.0f, 1.0f, 
+	  0.5f, -0.5f,  0.0f,   0.0f, 0.0f, 1.0f, 1.0f, 
+	  0.5f,  0.5f,  0.0f,   1.0f, 1.0f, 0.0f, 1.0f 
 };
 
 GLuint shader_programme, vao;
@@ -32,20 +41,23 @@ std::string textFileRead(char *fn)
 	return filetext;
 }
 
+
+
 void display()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
 	glUseProgram(shader_programme);
 
-	glm::mat4 model;
+	glm::mat4 model = glm::mat4(1.0f); 
 		
 	//model *= glm::rotate(glm::radians(90.0f), glm::vec3(0, 0, 1));
+	 
 
 	GLuint matrixID = glGetUniformLocation(shader_programme, "modelMatrix");
 	glUniformMatrix4fv(matrixID, 1, GL_FALSE, glm::value_ptr(model));
 
 	glBindVertexArray(vao);
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
 
 	glFlush();
 }
@@ -65,14 +77,20 @@ void init()
 	GLuint vbo = 1;
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(float), points, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 42 * sizeof(float), points, GL_STATIC_DRAW);
 
 	vao = 0;
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
+	
+	//pozitia
 	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+	//glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void *)0);
+
+	//culoarea
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)(3 * sizeof(float)));
 
 	std::string vstext = textFileRead("vertex.vert");
 	std::string fstext = textFileRead("fragment.frag");

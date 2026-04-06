@@ -116,3 +116,26 @@ In this lab, the focus is on the OpenGL Visualization System, specifically handl
   <img src="images/lab6_1.png" alt="Lab 6" width="400">
 <img src="images/lab6_2.png" alt="Lab 6" width="400">
 </div>
+
+
+## 📂 Lab 7
+
+### 📖 Description
+
+In this lab, the focus is on the **OpenGL Programmable Pipeline**, specifically the **Fragment Shader** stage and advanced data transfer between shaders. Key concepts include:
+
+1. **Interleaved VBOs and RGBA Coloring**: Implementing a single Vertex Buffer Object (VBO) to store data for two triangles forming a square, where each vertex has an associated (R, G, B, A) color vector. This involves configuring vertex attributes using `stride` and `offset` parameters to correctly navigate interleaved memory.
+
+2. **Per-Fragment Color Selection**: Rendering a triangle divided into two distinct colors. This is achieved by passing positional or conditional information from the vertex shader to the fragment shader, allowing the latter to choose the drawing color for each specific fragment.
+
+3. **Multi-Colored Sphere Meshes**: Drawing a sphere colored half in one color and half in another. This task utilizes the rasterization process, which interpolates input variables for the fragment shader based on the fragment's position within the primitive.
+
+4. **Normal-Based Surface Shading**: Determining the sphere's color intensity based on the angle formed between the surface normal and the OX axis. For a sphere centered at the origin, the normal direction is given by the vertex position, and the shading is calculated using the dot product of normalized vectors to determine the cosine of the angle.
+
+### 🖼️ Screenshot
+<div >
+  <img src="images/lab7_1.png" alt="Lab 7 Triangle" width="400">
+  <img src="images/lab7_2.png" alt="Lab 7 Triangle" width="400">
+   <img src="images/lab7_3.png" alt="Lab 7 Sphere" width="400">
+    <img src="images/lab7_4.png" alt="Lab 7 Sphere" width="400">
+</div>
