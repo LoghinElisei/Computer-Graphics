@@ -139,3 +139,35 @@ In this lab, the focus is on the **OpenGL Programmable Pipeline**, specifically 
    <img src="images/lab7_3.png" alt="Lab 7 Sphere" width="400">
     <img src="images/lab7_4.png" alt="Lab 7 Sphere" width="400">
 </div>
+
+
+
+## 📂 Lab 8
+
+### 📖 Description
+
+This lab covers the implementation of **Lighting Models in OpenGL**, specifically the **Phong model**, to create realistic surface appearances through mathematical approximations. Key objectives include:
+
+1.  **The Phong Model Implementation**: Combining three lighting components to calculate the final surface color ($C_f$):
+    * **Ambient**: A constant color ensuring the object is never fully black.
+    * **Diffuse**: Directional lighting based on the angle between the light source and the surface normal ($dot(L, N)$).
+    * **Specular**: Simulates the bright spot on shiny surfaces using the reflection vector and viewing direction.
+
+2.  **Normal Matrix Correction**: Converting surface normals from local object space to global scene coordinates to prevent lighting distortions during transformations like scaling. This is done using the transpose of the inverse of the modeling matrix.
+
+3.  **Cube Lighting & Normals**: Implementing the Phong model on a cube to observe how different normal orientations (diagonal vs. perpendicular to faces) affect the visual result.
+
+4.  **Per-Vertex vs. Per-Pixel Shading**: Applying lighting to a sphere to compare two techniques:
+    * **Per-Vertex**: Faster but lower quality, as calculations occur in the vertex shader and are interpolated.
+    * **Per-Pixel**: Higher visual quality, with calculations performed for every fragment in the fragment shader.
+
+### 🖼️ Screenshot
+
+<div>
+  <img src="images/lab8_1.png" alt="Phong Components" width="400">
+  <img src="images/lab8_2.png" alt="Cube Normals" width="400">
+  <img src="images/lab8_3.png" alt="Per-Vertex Sphere" width="400">
+  <img src="images/lab8_4.png" alt="Per-Pixel Sphere" width="400">
+</div>
+
+
