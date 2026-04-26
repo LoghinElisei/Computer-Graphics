@@ -167,7 +167,6 @@ This lab covers the implementation of **Lighting Models in OpenGL**, specificall
   <img src="images/lab8_1.png" alt="Phong Components" width="400">
   <img src="images/lab8_2.png" alt="Cube Normals" width="400">
   <img src="images/lab8_3.png" alt="Per-Vertex Sphere" width="400">
-  <img src="images/lab8_4.png" alt="Per-Pixel Sphere" width="400">
 </div>
 
 
