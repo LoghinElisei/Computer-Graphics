@@ -193,3 +193,32 @@ This lab implements the rendering of complex 3D models and the management of mul
 <div>
   <img src="images/lab9_1.png" alt="lab 9" width="400">
 </div>
+
+
+
+## 📂 Lab 10
+
+### 📖 Description
+
+This lab implements 2D texturing in OpenGL, allowing image data to be applied to geometric surfaces.
+
+* **Texture Loading**: Uses the `stb_image.h` library to load image files from disk into memory and creates OpenGL texture objects.
+
+
+* **Texture Mapping**: Assigns texture coordinates to vertices to accurately map images onto 2D primitives like triangles and squares.
+
+
+* **Filtering & Mipmaps**: Configures texture parameters, exploring wrapping options like `GL_REPEAT` and `GL_CLAMP_TO_EDGE`, as well as magnification/minification filters (`GL_NEAREST`, `GL_LINEAR`). It also implements mipmap generation for optimized rendering at various distances.
+
+
+* **Multi-Texturing**: Demonstrates binding multiple distinct texture objects simultaneously and blending them in the Fragment Shader using the GLSL `mix` function.
+
+### 🖼️ Screenshot
+<div>
+  <img src="images/lab10_1.png" alt="lab 10" width="400">
+  <img src="images/lab10_2.png" alt="lab 10" width="400">
+  <img src="images/lab10_3.png" alt="lab 10" width="400">
+  <img src="images/lab10_4.png" alt="lab 10" width="400">
+  <img src="images/lab10_5.png" alt="lab 10" width="400">
+  
+</div>
