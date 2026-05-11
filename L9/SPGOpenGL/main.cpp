@@ -103,16 +103,16 @@ void init()
 
 	glGenBuffers(1, &vboObj);
 	glBindBuffer(GL_ARRAY_BUFFER, vboObj);
-	glBufferData(GL_ARRAY_BUFFER, ..., ..., GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, verticesNormals.size() * sizeof(glm::vec3), &verticesNormals[0], GL_STATIC_DRAW);
 
 	glGenVertexArrays(1, &vaoObj);
 	glBindVertexArray(vaoObj);
 
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, ...);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)0);
 
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, ...);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)(vertices.size() * sizeof(glm::vec3)));
 
 	std::string vstext = textFileRead("vertex.vert");
 	std::string fstext = textFileRead("fragment.frag");
@@ -157,26 +157,66 @@ void init()
 
 void display()
 {
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glUseProgram(shader_programme);
+
+	//glBindVertexArray(vaoObj);
+
+	//GLuint lightPosLoc = glGetUniformLocation(shader_programme, "lightPos");
+	//glUniform3fv(lightPosLoc, 1, glm::value_ptr(lightPos));
+
+	//GLuint viewPosLoc = glGetUniformLocation(shader_programme, "viewPos");
+	//glUniform3fv(viewPosLoc, 1, glm::value_ptr(viewPos));
+
+	//modelMatrix = glm::mat4(); // matricea de modelare este matricea identitate
+	//modelMatrix *= glm::rotate(axisRotAngle, glm::vec3(0, 1, 0));
+	//modelMatrix *= glm::scale(glm::vec3(scaleFactor, scaleFactor, scaleFactor));
+	//GLuint modelMatrixLoc = glGetUniformLocation(shader_programme, "modelViewProjectionMatrix");
+	//glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, glm::value_ptr(projectionMatrix * viewMatrix * modelMatrix));
+
+	//glm::mat4 normalMatrix = glm::transpose(glm::inverse(modelMatrix));
+	//GLuint normalMatrixLoc = glGetUniformLocation(shader_programme, "normalMatrix");
+	//glUniformMatrix4fv(normalMatrixLoc, 1, GL_FALSE, glm::value_ptr(normalMatrix));
+
+	//glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+
+	//glutSwapBuffers();
+
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glUseProgram(shader_programme);
 
 	glBindVertexArray(vaoObj);
 
-	GLuint lightPosLoc = glGetUniformLocation(shader_programme, "lightPos");
-	glUniform3fv(lightPosLoc, 1, glm::value_ptr(lightPos));
+	glm::vec3 currentViewPos(xv, yv, zv);
+	glm::vec3 lightPos2 = currentViewPos; 
 
-	GLuint viewPosLoc = glGetUniformLocation(shader_programme, "viewPos");
-	glUniform3fv(viewPosLoc, 1, glm::value_ptr(viewPos));
+	glUniform3fv(glGetUniformLocation(shader_programme, "lightPos"), 1, glm::value_ptr(lightPos));
+	glUniform3fv(glGetUniformLocation(shader_programme, "lightPos2"), 1, glm::value_ptr(lightPos2));
+	glUniform3fv(glGetUniformLocation(shader_programme, "viewPos"), 1, glm::value_ptr(currentViewPos));
 
-	modelMatrix = glm::mat4(); // matricea de modelare este matricea identitate
-	modelMatrix *= glm::rotate(axisRotAngle, glm::vec3(0, 1, 0));
-	modelMatrix *= glm::scale(glm::vec3(scaleFactor, scaleFactor, scaleFactor));
-	GLuint modelMatrixLoc = glGetUniformLocation(shader_programme, "modelViewProjectionMatrix");
-	glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, glm::value_ptr(projectionMatrix * viewMatrix * modelMatrix));
+	modelMatrix = glm::mat4(1.0f);
+	modelMatrix = glm::rotate(modelMatrix, axisRotAngle, glm::vec3(0, 1, 0));
+	modelMatrix = glm::scale(modelMatrix, glm::vec3(scaleFactor));
+
+	glUniformMatrix4fv(glGetUniformLocation(shader_programme, "modelViewProjectionMatrix"), 1, GL_FALSE, glm::value_ptr(projectionMatrix * viewMatrix * modelMatrix));
+	glUniformMatrix4fv(glGetUniformLocation(shader_programme, "modelMatrix"), 1, GL_FALSE, glm::value_ptr(modelMatrix));
 
 	glm::mat4 normalMatrix = glm::transpose(glm::inverse(modelMatrix));
-	GLuint normalMatrixLoc = glGetUniformLocation(shader_programme, "normalMatrix");
-	glUniformMatrix4fv(normalMatrixLoc, 1, GL_FALSE, glm::value_ptr(normalMatrix));
+	glUniformMatrix4fv(glGetUniformLocation(shader_programme, "normalMatrix"), 1, GL_FALSE, glm::value_ptr(normalMatrix));
+
+	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+
+	modelMatrix = glm::mat4(1.0f);
+	modelMatrix = glm::translate(modelMatrix, glm::vec3(15.0f, 0.0f, 5.0f));
+	modelMatrix = glm::rotate(modelMatrix, axisRotAngle * 1.5f, glm::vec3(1, 0, 0)); 
+	modelMatrix = glm::scale(modelMatrix, glm::vec3(scaleFactor * 0.5f)); 
+
+	glUniformMatrix4fv(glGetUniformLocation(shader_programme, "modelViewProjectionMatrix"), 1, GL_FALSE, glm::value_ptr(projectionMatrix * viewMatrix * modelMatrix));
+	glUniformMatrix4fv(glGetUniformLocation(shader_programme, "modelMatrix"), 1, GL_FALSE, glm::value_ptr(modelMatrix));
+
+	normalMatrix = glm::transpose(glm::inverse(modelMatrix));
+	glUniformMatrix4fv(glGetUniformLocation(shader_programme, "normalMatrix"), 1, GL_FALSE, glm::value_ptr(normalMatrix));
 
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 
@@ -222,6 +262,27 @@ void keyboard(unsigned char key, int x, int y)
 	glutPostRedisplay(); // cauzeaza redesenarea ferestrei
 }
 
+void specialKeys(int key, int x, int y)
+{
+	switch (key)
+	{
+	case GLUT_KEY_UP:
+		zv -= 0.5f;
+		break;
+	case GLUT_KEY_DOWN:
+		zv += 0.5f;
+		break;
+	case GLUT_KEY_LEFT:
+		xv -= 0.5f;
+		break;
+	case GLUT_KEY_RIGHT:
+		xv += 0.5f;
+		break;
+	}
+	viewMatrix = glm::lookAt(glm::vec3(xv, yv, zv), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+	glutPostRedisplay();
+}
+
 int main(int argc, char** argv)
 {
 	glutInit(&argc, argv);
@@ -234,6 +295,7 @@ int main(int argc, char** argv)
 	glutDisplayFunc(display);
 	glutReshapeFunc(reshape);
 	glutKeyboardFunc(keyboard);
+	glutSpecialFunc(specialKeys);
 	glutMainLoop();
 
 	return 0;

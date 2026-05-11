@@ -170,3 +170,26 @@ This lab covers the implementation of **Lighting Models in OpenGL**, specificall
 </div>
 
 
+
+## 📂 Lab 9
+
+### 📖 Description
+
+This lab implements the rendering of complex 3D models and the management of multi-object scenes in OpenGL.
+
+* **Model Loading**: Uses `objloader.cpp` to parse `.obj` files for vertex positions, texture coordinates, and normals.
+
+
+* **Complex Scenes**: Multiple objects are displayed simultaneously, each with independent modeling transformations to prevent overlap.
+
+
+* **Advanced Lighting**: Integrates the Phong model (Ambient, Diffuse, Specular) with dual light sources, including one that follows the camera.
+
+
+* **Interaction**: Features real-time user control for rotating/scaling models and navigating the camera via `glm::lookAt`.
+
+
+### 🖼️ Screenshot
+<div>
+  <img src="images/lab9_1.png" alt="lab 9" width="400">
+</div>
