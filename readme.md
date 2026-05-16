@@ -249,3 +249,33 @@ This lab focuses on advanced texturing in OpenGL, specifically utilizing multipl
   <img src="images/lab11_2.png" alt="lab 11" width="400">
   
 </div>
+
+
+## 📂 Lab 12
+
+### 📖 Description
+
+This lab explores normal mapping techniques in OpenGL to enhance surface detail without modifying the underlying geometry.
+
+* **Normal Mapping Core Concepts**: Modifies the normal vectors' directions to alter how a light source affects the object. This creates the illusion of a highly detailed, 3D relief surface on structurally simple geometry.
+
+
+* **RGB Normal Maps**: Uses specially designed textures where the RGB values dictate the coordinates of the new normal directions instead of defining surface colors. It requires specific fragment shader calculations to map positive texture values back to a range that accommodates negative normal vector coordinates.
+
+
+* **Performance Optimization**: Highlights the primary advantage of normal mapping: a significant performance boost. It allows low-polygon models (few triangles) to look highly detailed, drastically reducing computational resource requirements.
+
+
+* **Procedural Details (Noise Textures)**: Demonstrates how to extract normal data from a grayscale noise texture by calculating its gradient using finite differences. This technique is used to create a grainy or bumpy effect on curved surfaces, such as a sphere.
+
+
+* **Interactive Normal Blending**: Features an interactive implementation where the intensity of the normal mapping effect is controlled dynamically using keystrokes. It achieves this by interpolating between the classic normal and the normal map values using the `mix` function in the fragment shader.
+
+
+
+### 🖼️ Screenshot
+<div>
+  <img src="images/lab12_1.png" alt="lab 12" width="400">
+  <img src="images/lab12_2.png" alt="lab 12" width="400">
+  
+</div>
