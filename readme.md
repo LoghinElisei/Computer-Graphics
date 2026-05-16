@@ -222,3 +222,30 @@ This lab implements 2D texturing in OpenGL, allowing image data to be applied to
   <img src="images/lab10_5.png" alt="lab 10" width="400">
   
 </div>
+
+
+## 📂 Lab 11
+
+### 📖 Description
+
+This lab focuses on advanced texturing in OpenGL, specifically utilizing multiple texture objects simultaneously, implementing color blending, and achieving transparency effects.
+
+* **Multiple Textures**: Explores how to use multiple texture units and `sampler2D` variables within the fragment shader. It demonstrates the use of `glActiveTexture` to specify the active texture before binding it.
+
+
+* **Color Blending & Transparency**: Implements pixel-level color blending using `glEnable(GL_BLEND)` to achieve transparency effects. It uses mathematical blending factors for the source and destination colors.
+
+
+* **Blending Functions**: Configures the blending calculation using `glBlendFunc`, specifically applying `GL_SRC_ALPHA` for the source and `GL_ONE_MINUS_SRC_ALPHA` for the destination to render semi-transparent objects over opaque ones.
+
+
+* **Drawing Order**: Highlights the critical importance of drawing order when dealing with transparency. It demonstrates that semi-transparent objects must be drawn from back to front over opaque background objects to achieve the correct visual overlapping effect.
+
+
+
+### 🖼️ Screenshot
+<div>
+  <img src="images/lab11_1.png" alt="lab 11" width="400">
+  <img src="images/lab11_2.png" alt="lab 11" width="400">
+  
+</div>
